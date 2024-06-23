@@ -15,6 +15,7 @@
 #include <Arduino.h>
 
 #define MAX_SENSOR_TARGETS 3
+#define SERIAL_BUFFER 256
 
 class LD2450
 {
@@ -34,15 +35,15 @@ public:
     ~LD2450();
 
 
-    void begin();
+    void begin(Stream &radarStream);
     void LD2450::setNumberOfTargets(uint16_t _numTargets);
-    int LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len, RadarTarget targets[]);
-
-
+    uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len);
+    String getLastTargetMessage();
+    uint8_t read();
 protected:
 private:
-
-    RadarTarget_t nowTargets[MAX_SENSOR_TARGETS]; // Stores the target of the current frame
+    Stream *radar_uart = nullptr;
+    RadarTarget_t radarTargets[MAX_SENSOR_TARGETS]; // Stores the target of the current frame
     uint16_t numTargets;
     String last_target_data = "";
    
