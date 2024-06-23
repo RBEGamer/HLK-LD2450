@@ -26,6 +26,10 @@ void LD2450::begin()
 {
 #if defined(AVR)
     LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED);
+#elif defined(RASPBERRYPI_PICO)
+    LD2450_RADAR_SERIAL.setRX(LD2450_RADAR_RX_PIN);
+    LD2450_RADAR_SERIAL.setTX(LD2450_RADAR_TX_PIN);
+    LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED);
 #else
     LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED, SERIAL_8N1, LD2450_RADAR_RX_PIN, LD2450_RADAR_TX_PIN);
 #endif
@@ -40,7 +44,9 @@ void LD2450::begin(HardwareSerial &radarStream, bool already_initialized)
         radarStream.begin(LD2450_SERIAL_SPEED);
     }
 
-    radar_uart = &radarStream;
+    LD2450::radar_uart = &radarStream;
+
+    LD2450::last_target_data = "";
 }
 
 void LD2450::setNumberOfTargets(uint16_t _numTargets)
@@ -49,10 +55,7 @@ void LD2450::setNumberOfTargets(uint16_t _numTargets)
     {
         _numTargets = LD2450_MAX_SENSOR_TARGETS;
     }
-    if (_numTargets < 0)
-    {
-        _numTargets = 0;
-    }
+   
     LD2450::numTargets = _numTargets;
 }
 
@@ -71,8 +74,8 @@ uint8_t LD2450::read()
     if (LD2450::radar_uart->available() > 0)
     {
         byte rec_buf[LD2450_SERIAL_BUFFER] = "";
-        int len = LD2450::radar_uart->readBytes(rec_buf, sizeof(rec_buf));
-
+        const int len = LD2450::radar_uart->readBytes(rec_buf, sizeof(rec_buf));
+        // IF WE GOT DATA PARSE THEM
         if (len > 0)
         {
             return LD2450::ProcessSerialDataIntoRadarData(rec_buf, len);
@@ -129,7 +132,7 @@ uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
                     LD2450::radarTargets[targetCounter].resolution = target.resolution;
 
                     // Add target information to the string
-                    LD2450::last_target_data += "TARGET ID=" + String(targetCounter + 1) + " X=" + target.x + "mm, Y=" + target.y + "mm, SPEED=" + target.speed + "cm/s, RESOLUTION=" + target.resolution + "mm\n";
+                    LD2450::last_target_data += "TARGET ID=" + String(targetCounter + 1) + " X=" + String(target.x) + "mm, Y=" + String(target.y) + "mm, SPEED=" + String(target.speed) + "cm/s, RESOLUTION=" + String(target.resolution) + "mm\n";
 
                     index += 8; // Move to the start of the next target data
 

@@ -22,15 +22,15 @@
 #if defined(ESP32)
   #ifdef ESP_IDF_VERSION_MAJOR // IDF 4+
     #if CONFIG_IDF_TARGET_ESP32 // ESP32/PICO-D4
-      #define LD2450_RADAR_SERIAL Serial
+      #define LD2450_RADAR_SERIAL Serial1
       #define LD2450_RADAR_RX_PIN 32
       #define LD2450_RADAR_TX_PIN 33
     #elif CONFIG_IDF_TARGET_ESP32S2
-      #define LD2450_RADAR_SERIAL Serial
+      #define LD2450_RADAR_SERIAL Serial1
       #define LD2450_RADAR_RX_PIN 9
       #define LD2450_RADAR_TX_PIN 8
     #elif CONFIG_IDF_TARGET_ESP32C3
-      #define LD2450_RADAR_SERIAL Serial
+      #define LD2450_RADAR_SERIAL Serial1
       #define LD2450_RADAR_RX_PIN 4
       #define LD2450_RADAR_TX_PIN 5
     #else 
@@ -45,6 +45,10 @@
   #define LD2450_RADAR_SERIAL Serial
   #define LD2450_RADAR_RX_PIN 0
   #define LD2450_RADAR_TX_PIN 1
+#elif defined(RASPBERRYPI_PICO)
+#define LD2450_RADAR_SERIAL Serial1
+  #define LD2450_RADAR_RX_PIN 17
+  #define LD2450_RADAR_TX_PIN 16
 #elif defined(AVR)
   #define LD2450_RADAR_SERIAL Serial
   #define LD2450_RADAR_RX_PIN 0
@@ -77,6 +81,7 @@ public:
     uint8_t read();
 
 protected:
+
 private:
     Stream *radar_uart = nullptr;
     RadarTarget_t radarTargets[LD2450_MAX_SENSOR_TARGETS]; // Stores the target of the current frame
