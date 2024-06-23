@@ -1,0 +1,15 @@
+#keywords.txt is formatted in four fields which are separated by a single true tab (not spaces):
+#KEYWORD	KEYWORD_TOKENTYPE	REFERENCE_LINK	RSYNTAXTEXTAREA_TOKENTYPE
+
+
+# Syntax Coloring Map For ExampleLibrary
+
+# Datatypes (KEYWORD1)
+Test	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+doSomething	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
