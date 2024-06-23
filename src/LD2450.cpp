@@ -22,19 +22,32 @@ LD2450::~LD2450() // Destructor function
 {
 }
 
-void LD2450::begin(Stream &radarStream)
+void LD2450::begin()
 {
+#if defined(AVR)
+    LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED);
+#else
+    LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED, SERIAL_8N1, LD2450_RADAR_RX_PIN, LD2450_RADAR_TX_PIN);
+#endif
+
+    LD2450::begin(LD2450_RADAR_SERIAL, true);
+}
+
+void LD2450::begin(HardwareSerial &radarStream, bool already_initialized)
+{
+    if (!already_initialized)
+    {
+        radarStream.begin(LD2450_SERIAL_SPEED);
+    }
 
     radar_uart = &radarStream;
-
-    LD2450::setNumberOfTargets(MAX_SENSOR_TARGETS);
 }
 
 void LD2450::setNumberOfTargets(uint16_t _numTargets)
 {
-    if (_numTargets > MAX_SENSOR_TARGETS)
+    if (_numTargets > LD2450_MAX_SENSOR_TARGETS)
     {
-        _numTargets = MAX_SENSOR_TARGETS;
+        _numTargets = LD2450_MAX_SENSOR_TARGETS;
     }
     if (_numTargets < 0)
     {
@@ -57,7 +70,7 @@ uint8_t LD2450::read()
 
     if (LD2450::radar_uart->available() > 0)
     {
-        byte rec_buf[SERIAL_BUFFER] = "";
+        byte rec_buf[LD2450_SERIAL_BUFFER] = "";
         int len = LD2450::radar_uart->readBytes(rec_buf, sizeof(rec_buf));
 
         if (len > 0)
@@ -81,7 +94,7 @@ uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
             int index = i + 4; // Skip header and in-frame data length fields
             LD2450::last_target_data = "";
 
-            for (int targetCounter = 0; targetCounter < LD2450::numTargets; targetCounter++)
+            for (uint16_t targetCounter = 0; targetCounter < LD2450::numTargets; targetCounter++)
             {
                 if (index + 7 < len)
                 {
@@ -123,7 +136,6 @@ uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
                     redreshed_targets++;
                 }
             }
-
             i = index; // Updating the index of an external loop
         }
     }
