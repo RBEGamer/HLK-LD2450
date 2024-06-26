@@ -71,6 +71,10 @@ uint8_t LD2450::read()
 }
 
 uint16_t LD2450::getSensorSupportedTargetCount(){
+    if(_numTargets < LD2450_MAX_SENSOR_TARGETS){
+        return _numTargets;
+    }
+    
     return LD2450_MAX_SENSOR_TARGETS;
 }
 
