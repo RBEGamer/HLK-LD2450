@@ -22,21 +22,6 @@ LD2450::~LD2450() // Destructor function
 {
 }
 
-void LD2450::begin()
-{
-#if defined(AVR)
-    LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED);
-#elif defined(RASPBERRYPI_PICO)
-    LD2450_RADAR_SERIAL.setRX(LD2450_RADAR_RX_PIN);
-    LD2450_RADAR_SERIAL.setTX(LD2450_RADAR_TX_PIN);
-    LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED);
-#else
-    LD2450_RADAR_SERIAL.begin(LD2450_SERIAL_SPEED, SERIAL_8N1, LD2450_RADAR_RX_PIN, LD2450_RADAR_TX_PIN);
-#endif
-
-    LD2450::begin(LD2450_RADAR_SERIAL, true);
-}
-
 void LD2450::begin(HardwareSerial &radarStream, bool already_initialized)
 {
     if (!already_initialized)
@@ -55,7 +40,7 @@ void LD2450::setNumberOfTargets(uint16_t _numTargets)
     {
         _numTargets = LD2450_MAX_SENSOR_TARGETS;
     }
-   
+
     LD2450::numTargets = _numTargets;
 }
 
@@ -71,8 +56,9 @@ uint8_t LD2450::read()
         return -2;
     }
 
-    if (LD2450::radar_uart->available() > 0)
-    {
+    if (LD2450::radar_uart->available())
+    {   
+        
         byte rec_buf[LD2450_SERIAL_BUFFER] = "";
         const int len = LD2450::radar_uart->readBytes(rec_buf, sizeof(rec_buf));
         // IF WE GOT DATA PARSE THEM
@@ -84,6 +70,18 @@ uint8_t LD2450::read()
     return -1;
 }
 
+uint16_t LD2450::getSensorSupportedTargetCount(){
+    return LD2450_MAX_SENSOR_TARGETS;
+}
+
+LD2450::RadarTarget LD2450::getTarget(uint16_t _target_id){
+    if (_target_id >= LD2450_MAX_SENSOR_TARGETS){
+        LD2450::RadarTarget tmp;
+        tmp.valid = false;
+        return tmp;
+    }
+    return LD2450::radarTargets[_target_id];
+}
 uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
 {
     uint8_t redreshed_targets = 0;
@@ -125,19 +123,39 @@ uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
                     else
                         target.speed = -target.speed;
 
+
+                    //CALCULATE DISTANCE
+                    target.distance = sqrt(pow(target.x, 2) +  pow(target.y, 2));
+
+                    // IF A RESOLUTION IS PRESENT THEN WE CAN ASSUME THAT A TARGET WAS FOUND
+                    if(target.resolution != 0){
+                        target.valid = true;
+                    }else{
+                       target.valid = false;
+                    }
+
+
                     LD2450::radarTargets[targetCounter].id = targetCounter + 1;
                     LD2450::radarTargets[targetCounter].x = target.x;
                     LD2450::radarTargets[targetCounter].y = target.y;
                     LD2450::radarTargets[targetCounter].speed = target.speed;
                     LD2450::radarTargets[targetCounter].resolution = target.resolution;
+                    LD2450::radarTargets[targetCounter].valid = target.valid;
+
+                    
 
                     // Add target information to the string
-                    LD2450::last_target_data += "TARGET ID=" + String(targetCounter + 1) + " X=" + String(target.x) + "mm, Y=" + String(target.y) + "mm, SPEED=" + String(target.speed) + "cm/s, RESOLUTION=" + String(target.resolution) + "mm\n";
+                    LD2450::last_target_data += "TARGET ID=" + String(targetCounter + 1) + " X=" + String(target.x) + "mm, Y=" + String(target.y) + "mm, SPEED=" + String(target.speed) + "cm/s, RESOLUTION=" + String(target.resolution) + "mm, DISTANCE=" + String(target.distance) + "mm, VALID=" + String(target.valid) + "\n";
 
                     index += 8; // Move to the start of the next target data
 
                     redreshed_targets++;
+                }else{
+                    LD2450::radarTargets[targetCounter].valid = false;
                 }
+                
+
+
             }
             i = index; // Updating the index of an external loop
         }

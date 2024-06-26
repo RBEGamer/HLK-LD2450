@@ -12,48 +12,16 @@
 #ifndef LD2450_h
 #define LD2450_h
 
+
 #include <Arduino.h>
+
 
 #define LD2450_MAX_SENSOR_TARGETS 3
 #define LD2450_SERIAL_BUFFER 256
 #define LD2450_SERIAL_SPEED 256000
 
 
-#if defined(ESP32)
-  #ifdef ESP_IDF_VERSION_MAJOR // IDF 4+
-    #if CONFIG_IDF_TARGET_ESP32 // ESP32/PICO-D4
-      #define LD2450_RADAR_SERIAL Serial1
-      #define LD2450_RADAR_RX_PIN 32
-      #define LD2450_RADAR_TX_PIN 33
-    #elif CONFIG_IDF_TARGET_ESP32S2
-      #define LD2450_RADAR_SERIAL Serial1
-      #define LD2450_RADAR_RX_PIN 9
-      #define LD2450_RADAR_TX_PIN 8
-    #elif CONFIG_IDF_TARGET_ESP32C3
-      #define LD2450_RADAR_SERIAL Serial1
-      #define LD2450_RADAR_RX_PIN 4
-      #define LD2450_RADAR_TX_PIN 5
-    #else 
-      #error Target CONFIG_IDF_TARGET is not supported
-    #endif
-  #else // ESP32 Before IDF 4.0
-    #define LD2450_RADAR_SERIAL Serial0
-    #define LD2450_RADAR_RX_PIN 32
-    #define LD2450_RADAR_TX_PIN 33
-  #endif
-#elif defined(ESP8266)
-  #define LD2450_RADAR_SERIAL Serial
-  #define LD2450_RADAR_RX_PIN 0
-  #define LD2450_RADAR_TX_PIN 1
-#elif defined(RASPBERRYPI_PICO)
-#define LD2450_RADAR_SERIAL Serial1
-  #define LD2450_RADAR_RX_PIN 17
-  #define LD2450_RADAR_TX_PIN 16
-#elif defined(AVR)
-  #define LD2450_RADAR_SERIAL Serial
-  #define LD2450_RADAR_RX_PIN 0
-  #define LD2450_RADAR_TX_PIN 1
-#endif
+
 
 
 class LD2450
@@ -67,16 +35,19 @@ public:
         int16_t y;           // Y mm
         int16_t speed;       // cm/s
         uint16_t resolution; // mm
+        uint16_t distance; // mm calculated from  x y 
+        bool valid;
     } RadarTarget_t;
 
     LD2450();
     // Constructor function
     ~LD2450();
 
-    void begin();
     void begin(HardwareSerial &radarStream, bool already_initialized = false);
     void setNumberOfTargets(uint16_t _numTargets);
     uint8_t ProcessSerialDataIntoRadarData(byte rec_buf[], int len);
+    RadarTarget getTarget(uint16_t _target_id);
+    uint16_t getSensorSupportedTargetCount();
     String getLastTargetMessage();
     uint8_t read();
 
