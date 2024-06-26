@@ -1,6 +1,6 @@
 ## LD2450 24Ghz Human Radar
 
-![LD2450](./documentation/imags/IMG_2780.jpg)
+![LD2450](./documentation/images/IMG_2780.jpg)
 
 
 Arduino library for HLK-LD2450 24Ghz Human body Motion Inductive Radar Sensor Module Kit
