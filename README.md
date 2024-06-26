@@ -36,6 +36,17 @@ The LD2450, as sold for configuration with the common breakout boards shown abov
 
 ## MINIMAL EXAMPLE
 
+### WIRING
+
+| LD2450 | RASPBERRY PI PICO |
+|--------|-------------------|
+| 5V     | VBUS              |
+| GND    | GND               |
+| TX     | GPIO1 / GP1       |
+| RX     | GPIO0 / GP0       |
+
+### CODE
+
 ```c++
     #include <LD2450.h>
     void setup()
