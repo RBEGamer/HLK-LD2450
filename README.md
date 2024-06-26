@@ -10,7 +10,7 @@ The code in this library is based heavily off this piece of work for ESPHome and
 The LD2450, as sold for configuration with the common breakout boards shown above communicates over serial at 256000 baud by default. This library allows you to configure and use the sensor over this serial connection. As the LD2450 is a device that uses a high baud rate, a microcontroller with a spare hardware UART for this communication is preferable to bit-banged software serial.
 
 
-# API
+## API
 
 ```c++
     void begin(HardwareSerial &radarStream, bool already_initialized = false); // setup sensor with given Hardware Serial instance such as Serial1
@@ -34,7 +34,28 @@ The LD2450, as sold for configuration with the common breakout boards shown abov
     } RadarTarget_t;
 ```
 
-# DISCLAIMER AND NOTES
+## MINIMAL EXAMPLE
+
+```c++
+    #include <LD2450.h>
+    void setup()
+    {
+        //SERIAL FOR DEBUG MESSAGES
+        Serial.begin(115200);
+        // SETUP SENSOR USING HARDWARE SERIAL INTERFACE 1
+        ld2450.begin(Serial1, false);  
+    }
+
+    void loop()
+    {
+        if (ld2450.read() > 0)
+        {
+            Serial.print(ld2450.getLastTargetMessage());
+        }
+    }
+```
+
+## DISCLAIMER AND NOTES
 
 Library template for arduino based on https://github.com/arduino/Arduino/wiki/Library-Manager-FAQ
 The LD2450 integration is based on https://github.com/0ingchun/arduino-lib_HLK-LD2450_Radar/.
