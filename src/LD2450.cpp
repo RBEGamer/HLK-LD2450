@@ -22,7 +22,26 @@ LD2450::~LD2450() // Destructor function
 {
 }
 
+
+void LD2450::begin(Stream &radarStream)
+{
+    LD2450::radar_uart = &radarStream;
+    LD2450::last_target_data = "";
+}
+
 void LD2450::begin(HardwareSerial &radarStream, bool already_initialized)
+{
+    if (!already_initialized)
+    {
+        radarStream.begin(LD2450_SERIAL_SPEED);
+    }
+
+    LD2450::radar_uart = &radarStream;
+
+    LD2450::last_target_data = "";
+}
+
+void LD2450::begin(SoftwareSerial &radarStream, bool already_initialized)
 {
     if (!already_initialized)
     {
@@ -71,8 +90,8 @@ uint8_t LD2450::read()
 }
 
 uint16_t LD2450::getSensorSupportedTargetCount(){
-    if(_numTargets < LD2450_MAX_SENSOR_TARGETS){
-        return _numTargets;
+    if(LD2450::numTargets < LD2450_MAX_SENSOR_TARGETS){
+        return LD2450::numTargets;
     }
     
     return LD2450_MAX_SENSOR_TARGETS;
