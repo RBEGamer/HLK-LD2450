@@ -14,7 +14,7 @@
 
 
 #include <Arduino.h>
-
+#include <SoftwareSerial.h>
 
 #define LD2450_MAX_SENSOR_TARGETS 3
 #define LD2450_SERIAL_BUFFER 256
@@ -43,7 +43,9 @@ public:
     // Constructor function
     ~LD2450();
 
+    void LD2450::begin(Stream &radarStream);
     void begin(HardwareSerial &radarStream, bool already_initialized = false);
+    void begin(SoftwareSerial &radarStream, bool already_initialized = false);
     void setNumberOfTargets(uint16_t _numTargets);
     uint8_t ProcessSerialDataIntoRadarData(byte rec_buf[], int len);
     RadarTarget getTarget(uint16_t _target_id);
