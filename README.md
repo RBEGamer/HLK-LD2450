@@ -26,7 +26,7 @@ The LD2450, as sold for configuration with the common breakout boards shown abov
 ```c++
     typedef struct RadarTarget
     {
-        uint16_t id;         // ID
+        uint16_t id;         // TARGET ID 1-3
         int16_t x;           // X mm
         int16_t y;           // Y mm
         int16_t speed;       // cm/s
