@@ -68,6 +68,17 @@ The LD2450, as sold for configuration with the common breakout boards shown abov
     }
 ```
 
+The output on the serial monitor should be:
+
+```bash
+TARGET ID=1 X=-19mm, Y=496mm, SPEED=0cm/s, RESOLUTION=360mm, DISTANCE=496mm, VALID=1
+TARGET ID=2 X=-1078mm, Y=1370mm, SPEED=0cm/s, RESOLUTION=360mm, DISTANCE=1743mm, VALID=1
+TARGET ID=3 X=0mm, Y=0mm, SPEED=0cm/s, RESOLUTION=0mm, DISTANCE=0mm, VALID=0
+```
+
+For accessing the raw unprocessed values, please access the `RadarTarget` struct using the `getTarget` function.
+Further detailed examples can be found in the `example` folder.
+
 ## DISCLAIMER AND NOTES
 
 The library is based on the following projects:
