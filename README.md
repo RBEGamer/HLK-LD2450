@@ -23,6 +23,8 @@ The LD2450, as sold for configuration with the common breakout boards shown abov
     uint8_t read(); // handle serial data stream, must be called in loop
 ```
 
+The `RadarTarget` struct, contains all raw values returned from the sensor:
+
 ```c++
     typedef struct RadarTarget
     {
