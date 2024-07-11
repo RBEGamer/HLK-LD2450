@@ -2,7 +2,7 @@
 
 Arduino library for `HLK-LD2450 24Ghz Human body Motion Inductive Radar Sensor Module Kit`
 
-![LD2450](./documentation/images/IMG_2780.jpg)
+![LD2450](./extras/images/IMG_2780.jpg)
 
 
 An Arduino library for the `Hi-Link HLK-LD2450 24Ghz FMCW radar sensor`. This sensor is a Frequency Modulated Continuous Wave radar, which makes it good for presence detection and has some interesting new features, including precise target location of three objects at the same time.
