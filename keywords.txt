@@ -1,25 +1,22 @@
-ld2450	KEYWORD1
+# Datatypes (KEYWORD1)
+ld2450  KEYWORD1
 
-begin	KEYWORD2
-debug	KEYWORD2
-isConnected	KEYWORD2
-read	KEYWORD2
-presenceDetected	KEYWORD2
-stationaryTargetDetected	KEYWORD2
-stationaryTargetDistance	KEYWORD2
-stationaryTargetEnergy	KEYWORD2
-movingTargetDetected	KEYWORD2
-movingTargetDistance	KEYWORD2
-movingTargetEnergy	KEYWORD2
-requestFirmwareVersion
-requestCurrentConfiguration
-requestRestart	KEYWORD2
-requestFactoryReset	KEYWORD2
-requestStartEngineeringMode	KEYWORD2
-requestEndEngineeringMode	KEYWORD2
-setMaxValues	KEYWORD2
-setGateSensitivityThreshold	KEYWORD2
+# Methods and Functions (KEYWORD2)
+begin  KEYWORD2
+setNumberOfTargets  KEYWORD2
+getTarget  KEYWORD2
+getSensorSupportedTargetCount  KEYWORD2
+getLastTargetMessage  KEYWORD2
+read  KEYWORD2
 
-firmware_major_version	LITERAL1
-firmware_minor_version	LITERAL1
-firmware_bugfix_version	LITERAL1
+# Instances (KEYWORD2)
+ld2450  KEYWORD2
+
+# Structs (KEYWORD3)
+RadarTarget  KEYWORD3
+RadarTarget_t  KEYWORD3
+
+# Constants (LITERAL1)
+LD2450_MAX_SENSOR_TARGETS  LITERAL1
+LD2450_SERIAL_BUFFER  LITERAL1
+LD2450_SERIAL_SPEED  LITERAL1
