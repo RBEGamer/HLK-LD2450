@@ -30,15 +30,18 @@ The `RadarTarget` struct, contains all raw values returned from the sensor:
 ```c++
     typedef struct RadarTarget
     {
-        uint16_t id;         // TARGET ID 1-3
-        int16_t x;           // X mm
-        int16_t y;           // Y mm
-        int16_t speed;       // cm/s
-        uint16_t resolution; // mm
-        uint16_t distance; // mm
-        bool valid;
+        uint16_t id;             // TARGET ID 1-3
+        int16_t x;               // X mm
+        int16_t y;               // Y mm
+        int16_t speed;           // cm/s
+        uint16_t resolution;     // mm
+        uint16_t distance;       // mm
+        bool valid;              // TRUE IF TARGET DETECTED
     } RadarTarget_t;
 ```
+
+In the current sensors firmware state ( at least on my board), the `LD2450` always returns three targets. The current implementation extracts the `valid` flag by using the `resolution` field. If `resolution` is set to an value except than `0`, the target is marked as`valid` and detected. 
+
 
 ## MINIMAL EXAMPLE
 
