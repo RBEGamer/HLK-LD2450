@@ -47,7 +47,7 @@ The LD2450, as sold for configuration with the common breakout boards shown abov
 | TX     | GPIO1 / GP1       |
 | RX     | GPIO0 / GP0       |
 
-### CODE
+### EXAMPLE CODE
 
 ```c++
     #include <LD2450.h>
@@ -70,5 +70,7 @@ The LD2450, as sold for configuration with the common breakout boards shown abov
 
 ## DISCLAIMER AND NOTES
 
-Library template for arduino based on https://github.com/arduino/Arduino/wiki/Library-Manager-FAQ
-The LD2450 integration is based on https://github.com/0ingchun/arduino-lib_HLK-LD2450_Radar/.
+The library is based on the following projects:
+
+* https://github.com/arduino/Arduino/wiki/Library-Manager-FAQ
+* https://github.com/0ingchun/arduino-lib_HLK-LD2450_Radar/.
