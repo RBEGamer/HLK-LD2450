@@ -45,7 +45,7 @@ In the current sensors firmware state ( at least on my board), the `LD2450` alwa
 
 ## MINIMAL EXAMPLE
 
-![](extras/fritzing/example_schematic_bb.png)
+![example_schematic](extras/Fritzing/example_schematic_bb.png)
 
 ### WIRING
 
