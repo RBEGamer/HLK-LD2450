@@ -45,9 +45,9 @@ In the current sensors firmware state ( at least on my board), the `LD2450` alwa
 
 ## MINIMAL EXAMPLE
 
-![example_schematic](extras/Fritzing/example_schematic_bb.png)
-
 ### WIRING
+
+![example_schematic](extras/Fritzing/example_schematic_bb.png)
 
 | LD2450 | RASPBERRY PI PICO |
 |--------|-------------------|
