@@ -48,7 +48,9 @@ void loop()
 {
 
   // READ FUNCTION MUST BE CALLED IN LOOP TO READ THE INCOMMING DATA STREAM
-  if (ld2450.read() > 0)
+  // RETURNS -1 or -2 as error flag and 0 to getSensorSupportedTargetCount() if valid targets found
+  const int sensor_got_valid_targets = ld2450.read();
+  if (sensor_got_valid_targets > 0)
   {
 
     /*
