@@ -118,8 +118,11 @@ uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
             int index = i + 4; // Skip header and in-frame data length fields
             LD2450::last_target_data = "";
 
-            for (uint16_t targetCounter = 0; targetCounter < LD2450::numTargets; targetCounter++)
+            for (uint16_t targetCounter = 0; targetCounter < LD2450_MAX_SENSOR_TARGETS; targetCounter++)
             {
+
+                
+                
                 if (index + 7 < len)
                 {
                     LD2450::RadarTarget target;
@@ -173,6 +176,11 @@ uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
                     index += 8; // Move to the start of the next target data
 
                     redreshed_targets++;
+
+                    //SKIP IF USER ONLY REQUESTED X VALID TARGETS
+                    if(redreshed_targets >= LD2450::numTargets){
+                        break;
+                    }
                 }else{
                     LD2450::radarTargets[targetCounter].valid = false;
                 }
