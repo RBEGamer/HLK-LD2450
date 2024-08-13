@@ -43,7 +43,7 @@ public:
     // Constructor function
     ~LD2450();
 
-    void LD2450::begin(Stream &radarStream);
+    void begin(Stream &radarStream);
     void begin(HardwareSerial &radarStream, bool already_initialized = false);
     void begin(SoftwareSerial &radarStream, bool already_initialized = false);
     void setNumberOfTargets(uint16_t _numTargets);
