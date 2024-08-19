@@ -108,4 +108,4 @@ Further detailed examples can be found in the `example` folder.
 The library is based on the following projects:
 
 * https://github.com/arduino/Arduino/wiki/Library-Manager-FAQ
-* https://github.com/0ingchun/arduino-lib_HLK-LD2450_Radar/.
+* https://github.com/0ingchun/arduino-lib_HLK-LD2450_Radar/
