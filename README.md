@@ -40,7 +40,7 @@ The `RadarTarget` struct, contains all raw values returned from the sensor:
     } RadarTarget_t;
 ```
 
-In the current sensors firmware state ( at least on my board), the `LD2450` always returns three targets. The current implementation extracts the `valid` flag by using the `resolution` field. If `resolution` is set to an value except than `0`, the target is marked as`valid` and detected. For more information about this specific implementation, please refer to `ProcessSerialDataIntoRadarData` function.
+In the current sensors firmware state (at least on my board), the `LD2450` always returns three targets. The current implementation extracts the `valid` flag by using the `resolution` field. If `resolution` is set to an value except than `0`, the target is marked as`valid` and detected. For more information about this specific implementation, please refer to `ProcessSerialDataIntoRadarData` function.
 
 
 ## MINIMAL EXAMPLE
