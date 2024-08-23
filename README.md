@@ -89,6 +89,10 @@ https://github.com/earlephilhower/arduino-pico/releases/download/global/package_
     }
 ```
 
+On the first upload attempt you may have to plug in the pico with pressed `BOOT` button.
+Please refer to [earlephilhower/arduino-pico](https://github.com/earlephilhower/arduino-pico)
+
+
 The output on the serial monitor should be:
 
 ```bash
