@@ -12,9 +12,16 @@
 #ifndef LD2450_h
 #define LD2450_h
 
-//#define ENABLE_SOFTWARESERIAL_SUPPORT
+
+
 
 #include <Arduino.h>
+
+#ifdef SoftwareSerial_h
+    #define ENABLE_SOFTWARESERIAL_SUPPORT
+#endif
+
+
 #ifdef ENABLE_SOFTWARESERIAL_SUPPORT
     #include <SoftwareSerial.h>
 #endif
