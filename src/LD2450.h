@@ -12,9 +12,12 @@
 #ifndef LD2450_h
 #define LD2450_h
 
+//#define ENABLE_SOFTWARESERIAL_SUPPORT
 
 #include <Arduino.h>
-#include <SoftwareSerial.h>
+#ifdef ENABLE_SOFTWARESERIAL_SUPPORT
+    #include <SoftwareSerial.h>
+#endif
 
 #define LD2450_MAX_SENSOR_TARGETS 3
 #define LD2450_SERIAL_BUFFER 256
@@ -45,7 +48,11 @@ public:
 
     void begin(Stream &radarStream);
     void begin(HardwareSerial &radarStream, bool already_initialized = false);
+
+#ifdef ENABLE_SOFTWARESERIAL_SUPPORT
     void begin(SoftwareSerial &radarStream, bool already_initialized = false);
+#endif
+
     void setNumberOfTargets(uint16_t _numTargets);
     uint8_t ProcessSerialDataIntoRadarData(byte rec_buf[], int len);
     RadarTarget getTarget(uint16_t _target_id);
