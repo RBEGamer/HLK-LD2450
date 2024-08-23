@@ -41,17 +41,20 @@ void LD2450::begin(HardwareSerial &radarStream, bool already_initialized)
     LD2450::last_target_data = "";
 }
 
-void LD2450::begin(SoftwareSerial &radarStream, bool already_initialized)
-{
-    if (!already_initialized)
+#ifdef ENABLE_SOFTWARESERIAL_SUPPORT
+    void LD2450::begin(SoftwareSerial &radarStream, bool already_initialized)
     {
-        radarStream.begin(LD2450_SERIAL_SPEED);
+        if (!already_initialized)
+        {
+            radarStream.begin(LD2450_SERIAL_SPEED);
+        }
+    
+        LD2450::radar_uart = &radarStream;
+    
+        LD2450::last_target_data = "";
     }
+#endif
 
-    LD2450::radar_uart = &radarStream;
-
-    LD2450::last_target_data = "";
-}
 
 void LD2450::setNumberOfTargets(uint16_t _numTargets)
 {
