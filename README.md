@@ -4,7 +4,6 @@ Arduino library for `HLK-LD2450 24Ghz Human body Motion Inductive Radar Sensor M
 
 ![LD2450](./extras/images/IMG_2780.jpg)
 
-
 An Arduino library for the `Hi-Link HLK-LD2450 24Ghz FMCW radar sensor`. This sensor is a Frequency Modulated Continuous Wave radar, which makes it good for presence detection and has some interesting new features, including precise target location of three objects at the same time.
 
 ## HARDWARE REQUIREMENTS
@@ -66,6 +65,8 @@ Add the Raspberry Pi Pico board support to the Arduino IDE:
 # ADD TO ARDUINO SETTINGS-> ADDITIONAL BOARD MANAGER URLs
 https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
 ```
+
+![boardmanager_rppicopackage](./extras/images/boardmanager_rppicopackage.png)
 
 ### EXAMPLE CODE
 
