@@ -56,6 +56,13 @@ In the current sensors firmware state (at least on my board), the `LD2450` alway
 | TX     | GPIO1 / GP1       |
 | RX     | GPIO0 / GP0       |
 
+### ARDUINO IDE SETUP
+
+```bash
+# ADD TO ARDUINO SETTINGS-> ADDITIONAL BOARD MANAGER URLs
+https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+```
+
 ### EXAMPLE CODE
 
 ```c++
