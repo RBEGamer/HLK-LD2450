@@ -16,7 +16,7 @@ The `LD2450`, as sold for configuration with the common breakout boards shown ab
 
 ```c++
     void begin(Stream &radarStream);
-    void begin(SoftwareSerial &radarStream, bool already_initialized = false);
+    void begin(SoftwareSerial &radarStream, bool already_initialized = false); // compile with #define ENABLE_SOFTWARESERIAL_SUPPORT
     void begin(HardwareSerial &radarStream, bool already_initialized = false); // setup sensor with given Hardware Serial instance such as Serial1
     void setNumberOfTargets(uint16_t _numTargets); // how many targets should be parsed - limit is three on current ld2450 firmware
     RadarTarget getTarget(uint16_t _target_id); // get a target by number from 0 - getSensorSupportedTargetCount()
