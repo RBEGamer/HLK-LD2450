@@ -32,6 +32,8 @@ TX => 2
 
 #include <SoftwareSerial.h>
 
+
+#define ENABLE_SOFTWARESERIAL_SUPPORT
 #include <LD2450.h>
 
 
