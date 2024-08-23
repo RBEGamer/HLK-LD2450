@@ -58,6 +58,10 @@ In the current sensors firmware state (at least on my board), the `LD2450` alway
 
 ### ARDUINO IDE SETUP
 
+Add the Raspberry Pi Pico board support to the Arduino IDE:
+
+* Raspberry Pi Pico/RP2040 by Earle F. Philhower, III
+
 ```bash
 # ADD TO ARDUINO SETTINGS-> ADDITIONAL BOARD MANAGER URLs
 https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
