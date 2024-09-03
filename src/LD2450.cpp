@@ -71,6 +71,27 @@ String LD2450::getLastTargetMessage()
     return LD2450::last_target_data;
 }
 
+
+bool LD2450::waitForSensorMessage(bool wait_forever){
+
+    uint8_t read_result = 0;
+    for(long i = 0; i < LD2450_DEFAULT_RETRY_COUNT_FOR_WAIT_FOR_MSG; i++){
+        read_result = LD2450::read();
+        if(read_result >= 0){
+            return true;
+        }
+        delay(1);
+        
+        //.... :)
+        if(wait_forever){
+            i = 0;
+        }
+    }
+    return false;
+}
+
+
+
 uint8_t LD2450::read()
 {
     if (LD2450::radar_uart == nullptr)

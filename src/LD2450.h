@@ -29,6 +29,7 @@
 #define LD2450_MAX_SENSOR_TARGETS 3
 #define LD2450_SERIAL_BUFFER 256
 #define LD2450_SERIAL_SPEED 256000
+#define LD2450_DEFAULT_RETRY_COUNT_FOR_WAIT_FOR_MSG 1000
 
 
 
@@ -60,6 +61,7 @@ public:
     void begin(SoftwareSerial &radarStream, bool already_initialized = false);
 #endif
 
+    bool waitForSensorMessage(bool wait_forever = false);
     void setNumberOfTargets(uint16_t _numTargets);
     uint8_t ProcessSerialDataIntoRadarData(byte rec_buf[], int len);
     RadarTarget getTarget(uint16_t _target_id);
