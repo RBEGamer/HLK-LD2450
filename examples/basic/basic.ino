@@ -30,8 +30,14 @@ void setup()
 {
   //SERIAL FOR HOST / DEBUG MESSAGES
   Serial.begin(115200);
-  Serial.println("SETUP_STARTED");
 
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
+
+  
+  Serial.println("SETUP_STARTED");
+  
   // BUILD-IN LED TO INDICATED RADAR TARGETS AS AN EXAMPLE
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, LOW);
@@ -41,6 +47,7 @@ void setup()
   ld2450.begin(Serial1, false);
 
 
+  
   if(!ld2450.waitForSensorMessage()){
     Serial.println("SENSOR CONNECTION SEEMS OK");
   }else{
