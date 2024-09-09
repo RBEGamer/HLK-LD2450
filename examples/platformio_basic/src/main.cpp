@@ -40,13 +40,6 @@ void setup()
   // HERE THE HARDWARE SERIAL INTERFACE 1 IS USED
   ld2450.begin(Serial1, false);
 
-
-
-  if(!ld2450.waitForSensorMessage()){
-    Serial.println("SENSOR CONNECTION SEEMS OK");
-  }else{
-    Serial.println("SENSOR TEST: GOT NO VALID SENSORDATA - PLEASE CHECK CONNECTION!");
-  }
   
   Serial.println("SETUP_FINISHED");
   
