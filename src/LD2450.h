@@ -63,11 +63,11 @@ public:
 
     bool waitForSensorMessage(bool wait_forever = false);
     void setNumberOfTargets(uint16_t _numTargets);
-    uint8_t ProcessSerialDataIntoRadarData(byte rec_buf[], int len);
+    int ProcessSerialDataIntoRadarData(byte rec_buf[], int len);
     RadarTarget getTarget(uint16_t _target_id);
     uint16_t getSensorSupportedTargetCount();
     String getLastTargetMessage();
-    int8_t read();
+    int read();
 
 protected:
 
