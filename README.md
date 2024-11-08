@@ -21,7 +21,7 @@ The `LD2450`, as sold for configuration with the common breakout boards shown ab
     RadarTarget getTarget(uint16_t _target_id); // get a target by number from 0 - getSensorSupportedTargetCount()
     uint16_t getSensorSupportedTargetCount();
     String getLastTargetMessage(); // get debug message - see basic example
-    uint8_t read(); // handle serial data stream, must be called in loop
+    int read(); // handle serial data stream, must be called in loop
     bool waitForSensorMessage(bool wait_forever = false); // checks if the radar sensors sends data, waits for an valid incomming datastream usinf the read function
 ```
 
