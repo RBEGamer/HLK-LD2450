@@ -67,7 +67,7 @@ public:
     RadarTarget getTarget(uint16_t _target_id);
     uint16_t getSensorSupportedTargetCount();
     String getLastTargetMessage();
-    uint8_t read();
+    int8_t read();
 
 protected:
 
