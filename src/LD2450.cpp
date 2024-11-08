@@ -92,7 +92,7 @@ bool LD2450::waitForSensorMessage(bool wait_forever){
 
 
 
-uint8_t LD2450::read()
+int LD2450::read()
 {
     if (LD2450::radar_uart == nullptr)
     {
@@ -129,9 +129,9 @@ LD2450::RadarTarget LD2450::getTarget(uint16_t _target_id){
     }
     return LD2450::radarTargets[_target_id];
 }
-uint8_t LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
+int LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
 {
-    uint8_t redreshed_targets = 0;
+    int redreshed_targets = 0;
 
     for (int i = 0; i < len; i++)
     {
