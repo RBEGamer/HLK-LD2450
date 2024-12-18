@@ -191,7 +191,7 @@ int LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
                     LD2450::radarTargets[targetCounter].speed = target.speed;
                     LD2450::radarTargets[targetCounter].resolution = target.resolution;
                     LD2450::radarTargets[targetCounter].valid = target.valid;
-
+                    LD2450::radarTargets[targetCounter].distance = target.distance;
                     
 
                     // Add target information to the string
