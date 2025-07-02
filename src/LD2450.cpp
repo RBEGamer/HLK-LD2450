@@ -34,6 +34,7 @@ void LD2450::begin(HardwareSerial &radarStream, bool already_initialized)
     if (!already_initialized)
     {
         radarStream.begin(LD2450_SERIAL_SPEED);
+        radarStream.setTimeout(10);
     }
 
     LD2450::radar_uart = &radarStream;
@@ -47,6 +48,7 @@ void LD2450::begin(HardwareSerial &radarStream, bool already_initialized)
         if (!already_initialized)
         {
             radarStream.begin(LD2450_SERIAL_SPEED);
+            radarStream.setTimeout(10);
         }
     
         LD2450::radar_uart = &radarStream;
