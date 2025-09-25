@@ -137,56 +137,38 @@ int LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
 
     for (int i = 0; i < len; i++)
     {
-        // Checking the header and footer
+        // Check for valid packet header and footer
         if (rec_buf[i] == 0xAA && rec_buf[i + 1] == 0xFF && rec_buf[i + 2] == 0x03 && rec_buf[i + 3] == 0x00 && rec_buf[i + 28] == 0x55 && rec_buf[i + 29] == 0xCC)
         {
-
-            int index = i + 4; // Skip header and in-frame data length fields
+            int index = i + 4; // Skip header (4 bytes)
             LD2450::last_target_data = "";
 
+            // Loop through all possible targets in the frame
             for (uint16_t targetCounter = 0; targetCounter < LD2450_MAX_SENSOR_TARGETS; targetCounter++)
             {
-
-                
-                
+                // Check if enough bytes remain for a full target
                 if (index + 7 < len)
                 {
                     LD2450::RadarTarget target;
+                    // Parse x, y, speed as signed 16-bit integers (little-endian, two's complement)
                     target.x = (int16_t)(rec_buf[index] | (rec_buf[index + 1] << 8));
                     target.y = (int16_t)(rec_buf[index + 2] | (rec_buf[index + 3] << 8));
                     target.speed = (int16_t)(rec_buf[index + 4] | (rec_buf[index + 5] << 8));
                     target.resolution = (uint16_t)(rec_buf[index + 6] | (rec_buf[index + 7] << 8));
 
-                    // debug_serial.println(target.x);
-                    // debug_serial.println(target.y);
-                    // debug_serial.println(target.speed);
+                    // No manual sign correction needed! int16_t cast handles two's complement.
 
-                    // Check the highest bit of x and y. Adjust the sign
-                    if (rec_buf[index + 1] & 0x80)
-                        target.x -= 0x8000;
-                    else
-                        target.x = -target.x;
-                    if (rec_buf[index + 3] & 0x80)
-                        target.y -= 0x8000;
-                    else
-                        target.y = -target.y;
-                    if (rec_buf[index + 5] & 0x80)
-                        target.speed -= 0x8000;
-                    else
-                        target.speed = -target.speed;
+                    // Calculate distance as Euclidean norm (mm)
+                    target.distance = (uint16_t)sqrt((double)target.x * target.x + (double)target.y * target.y);
 
-
-                    //CALCULATE DISTANCE
-                    target.distance = sqrt(pow(target.x, 2) +  pow(target.y, 2));
-
-                    // IF A RESOLUTION IS PRESENT THEN WE CAN ASSUME THAT A TARGET WAS FOUND
+                    // If resolution is present, mark target as valid
                     if(target.resolution != 0){
                         target.valid = true;
                     }else{
                        target.valid = false;
                     }
 
-
+                    // Store parsed target data in radarTargets array
                     LD2450::radarTargets[targetCounter].id = targetCounter + 1;
                     LD2450::radarTargets[targetCounter].x = target.x;
                     LD2450::radarTargets[targetCounter].y = target.y;
@@ -194,27 +176,24 @@ int LD2450::ProcessSerialDataIntoRadarData(byte rec_buf[], int len)
                     LD2450::radarTargets[targetCounter].resolution = target.resolution;
                     LD2450::radarTargets[targetCounter].valid = target.valid;
                     LD2450::radarTargets[targetCounter].distance = target.distance;
-                    
 
-                    // Add target information to the string
+                    // Add target information to the debug string
                     LD2450::last_target_data += "TARGET ID=" + String(targetCounter + 1) + " X=" + String(target.x) + "mm, Y=" + String(target.y) + "mm, SPEED=" + String(target.speed) + "cm/s, RESOLUTION=" + String(target.resolution) + "mm, DISTANCE=" + String(target.distance) + "mm, VALID=" + String(target.valid) + "\n";
 
                     index += 8; // Move to the start of the next target data
 
                     redreshed_targets++;
 
-                    //SKIP IF USER ONLY REQUESTED X VALID TARGETS
+                    // Stop if user only requested X valid targets
                     if(redreshed_targets >= LD2450::numTargets){
                         break;
                     }
                 }else{
+                    // Not enough data for a target, mark as invalid
                     LD2450::radarTargets[targetCounter].valid = false;
                 }
-                
-
-
             }
-            i = index; // Updating the index of an external loop
+            i = index; // Move i to end of this packet
         }
     }
     return redreshed_targets;
